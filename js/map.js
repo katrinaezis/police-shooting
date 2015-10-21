@@ -1,66 +1,53 @@
+// Katrina Ezis
+// Info-343
+// Assignment 3: Police-Shooting
+// 10/21/2015
+
+// Global variable needed to create map
 var map;
 
-// Calls 
+// Calls draw map once the page has loaded
 window.onload = function() {
 	drawMap();
 };
 
-
-// Function to draw your map
+// Draws a mapbox map then calls getData to begin populating map
 var drawMap = function() {
-
-  // Create map and set view
-  //var map = L.map('#map-container').setView([latitude, longitude], zoom);
   map = L.map('map-container').setView([35, -100], 4);
   var layer = L.tileLayer('https://api.mapbox.com/v4/katrinaezis.noedkc81/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2F0cmluYWV6aXMiLCJhIjoiY2lmeWFqYm5kNHZ6MnVubHl6ZHNpcGVzaSJ9.u7DgPtcf5tLTdhIuoEtwow#4');
   layer.addTo(map);
   getData();
-
-  // Create a tile layer variable using the appropriate url
-
-
-  // Add the layer to your map
- 
-
-  // Execute your function to get data
- 
 }
 
-// Function for getting data
+// Gets the data from the JSON file, then calls customBuild with that
+// JSON data
 var getData = function() {
-  // Execute an AJAX request to get the data in data/response.js
+  // Executes an AJAX request to get the data in data/response.js
   $.ajax({
   	url: "data/response.json",
   	type: 'get',
   	success: function(data) {
-  		//console.log(data);
   		customBuild(data);
   	},
   	dataType: 'json'
   });
-  // When your request is successful, call your customBuild function
 
 }
 
-// Loop through your data and add the appropriate layers and points
+// Creates layers for the map and then loops through the
+// JSON data passed in to find the correct information to
+// create circles to be added to those layers.
 var customBuild = function(data) {
-	// Be sure to add each layer to the map
-	// Once layers are on the map, add a leaflet controller that shows/hides layers
-	
-
-	//female vs male
-	// armed vs not armed
-	//killed vs not killed
-	// var race = new L.LayerGroup([white, black]);
-	//var gender = new L.LayerGroup([]);
-
+	// Three layer groups
 	var armed = new L.LayerGroup([]);
 	var unarmed = new L.LayerGroup([]);
 	var unknown = new L.LayerGroup([]);
+	// Variables to keep count for table
 	var killarm = 0;
 	var killunarm = 0;
 	var hitarm = 0;
 	var hitunarm = 0;
+	// Loops through data and grabs necesary info
 	$.each(data, function(i, val) {
 		var lat = val["lat"];
 		var lon = val["lng"];
@@ -69,6 +56,7 @@ var customBuild = function(data) {
 		var sum = val["Summary"];
 		var link = val["Source Link"];
 		link = "<a href=" + link + ">" + sum + "</a>";
+		// Creates circles and gives them color
 		if (key == "Armed") {
 			var circle = new L.circleMarker([lat, lon], {
 				color: '#004747',
@@ -94,6 +82,7 @@ var customBuild = function(data) {
 			circle.bindPopup(link);
 			circle.addTo(unknown);
 		}
+		// Table data
 		if (kill == "Hit" && key == "Armed") {
 			hitarm++;
 		} else if (kill == "Killed" && key =="Armed") {
@@ -104,10 +93,12 @@ var customBuild = function(data) {
 			killunarm++;
 		}
 	});
+	// Populates table
 	$('#ka').html(killarm);
 	$('#ku').html(killunarm);
 	$('#ha').html(hitarm);
 	$('#hu').html(hitunarm);
+	// Adds layers to map
 	armed.addTo(map);
 	unarmed.addTo(map);
 	unknown.addTo(map);
@@ -117,21 +108,6 @@ var customBuild = function(data) {
 		"Not Known": unknown
 	};
 	L.control.layers(null, control).addTo(map);
-	// circle.addTo(race);
-	//circle.addTo(gender);
-	// var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
-	//     denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
-	//     aurora    = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
-	//     golden    = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
-	// var cities = L.layerGroup([littleton, denver, aurora, golden]);
-	// 	var overlayMaps = {
-	//     "Cities": cities
-	// };
-	// L.control.layers(null, cities).addTo(map);
-
-
-
-	//L.control.layers(race).addTo(map);
 }
 
 
