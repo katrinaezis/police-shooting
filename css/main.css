@@ -56,3 +56,8 @@ a {
 a:hover {
 	color: black;
 }
+
+footer {
+	margin: 2%;
+	color: #800000;
+}
