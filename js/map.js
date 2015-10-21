@@ -1,12 +1,9 @@
 var map;
 
+// Calls 
 window.onload = function() {
 	drawMap();
 };
-
-// $(document).ready(function() {
-// 	drawMap();
-// });
 
 
 // Function to draw your map
@@ -135,7 +132,6 @@ var customBuild = function(data) {
 
 
 	//L.control.layers(race).addTo(map);
-
 }
 
 
