@@ -2,3 +2,57 @@
 #container {
 	height:800px;
 }
+
+.row > div {
+	padding: 1%;
+	text-align: center;
+}
+
+.row {
+	padding: 2%;
+	width: 90%;
+	margin: auto;
+}
+
+.row:not(:last-child) {
+		border-bottom: 2px solid;
+		border-color: #004747;
+}
+
+.row:nth-child(odd) {
+	background-color: #F0F0F5;
+}
+
+hr {
+	width: 90%;
+}
+
+div {
+	font-size: 14pt;
+}
+
+.jumbotron {
+	padding: 2%;
+	background-color: white;
+}
+
+.jumbotron > h1 {
+	color: #800000;
+
+}
+
+.jumbotron > h2 { 
+	color: #004747;
+}
+
+a, a:hover {
+	text-decoration: none;
+}
+
+a {
+	color: #004747;
+}
+
+a:hover {
+	color: black;
+}
